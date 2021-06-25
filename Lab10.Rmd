@@ -1,0 +1,59 @@
+---
+title: "Lab 10"
+author: "Jacika Patel"
+date: "6/17/2021"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(rvest)
+library(dplyr)
+library(tidyverse)
+library(repurrrsive)
+listviewer::jsonedit(gh_users)  
+```
+
+# 1 a) Explain or describe nested Lists.
+
+Nested lists are lists that occurs as an element of another list. Basically, they lists withing a list. They are matrices, it maybe list of rows, where each row is itself a list, or a list of columns where each column is itself a list  
+ 
+
+# 1 b) Open and explore data for Git Hub repos by running the following code gh_repo. Comment on the structure and arrangement of the data 
+
+
+When running gh_repos, reading data provided is very confusing. The structure and breakdown makes it hard to navigate the data. 
+
+
+# 1 c) In two or three sentences, explain what happens to the data when you run the code:
+```{r}
+repos <- tibble(repo = gh_repos)
+repos
+```
+
+It shows a nested list that includes 6 repos. From the looking at provided data there 5 repos with 30 lists and 1 with a list of 26. 
+
+
+# 1 d) Describe the data representation when the listserver tool is applied. And go into detail explaining why we have a nested List configuration. What do the numbers 30 and 68 represent?
+
+```{r}
+listviewer::jsonedit(gh_repos)
+```
+
+The code above shows the list data for each gh_repo in much simpler way. Using shiny, jsonedit provides a flexible and helpful interactive tree-like view of lists. The gh_repos list  contains another list of 30 user’s repositories. Each of the list of 30 contains 68 element list which contains more information such as; id, name, full_name, owner, and private.
+
+
+#1 e)  Use and show R unesting code to produce the tibble below.
+```{r}
+tibble(repo = gh_repos)%>%
+  unnest_auto(repo) %>%
+  unnest_auto(repo) -> new
+new
+```
